@@ -28,35 +28,20 @@ function fiscalCode(person) {
     11: 'S',
     12: 'T',
   };
-  const vowels = ['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'];
+  const vowels = ['A', 'E', 'I', 'O', 'U'];
 
   // function global variables
-  const perName = person.name,
-    surname = person.surname,
+  const name = person.name.toUpperCase(),
+    surname = person.surname.toUpperCase(),
     gender = person.gender,
     dob = person.dob;
+
+  // new name , surname & thier vowels
+
   let newName = [];
   let nameV = [];
   let newSurname = [];
   let surnameV = [];
-
-  // for loop to check if name letters is vowels and sperate thim in two arrays newName & nameV
-  for (let i = 0; i < perName.length; i++) {
-    if (!vowels.includes(perName[i])) {
-      newName.push(perName[i]);
-    } else {
-      nameV.push(perName[i]);
-    }
-  }
-
-  // build ID's second part according to problem instrucions
-  let secPart =
-    newName.join('').length < 3
-      ? (newName.join('') + nameV[0]).toUpperCase().length < 3
-        ? (newName.join('') + nameV[0]).toUpperCase() + 'X'
-        : (newName.join('') + nameV[0]).toUpperCase()
-      : newName.join('').toUpperCase();
-  secPart = secPart.length > 3 ? secPart[0] + secPart[2] + secPart[3] : secPart;
 
   // for loop to check if surname letters is vowels and sperate thim in two arrays newSurname & surnameV
   for (let i = 0; i < surname.length; i++) {
@@ -70,10 +55,27 @@ function fiscalCode(person) {
   // build ID's first part according to problem instrucions
   let firstPart =
     newSurname.join('').length < 3
-      ? (newSurname.join('') + surnameV[0]).toUpperCase().length < 3
-        ? (newSurname.join('') + surnameV[0]).toUpperCase() + 'X'
-        : (newSurname.join('') + surnameV[0]).toUpperCase()
-      : newSurname.join('').toUpperCase();
+      ? (newSurname.join('') + surnameV[0]).length < 3
+        ? newSurname.join('') + surnameV[0] + 'X'
+        : newSurname.join('') + surnameV[0]
+      : newSurname.join('');
+
+  // for loop to check if name letters is vowels and sperate thim in two arrays newName & nameV
+  for (let i = 0; i < name.length; i++) {
+    if (!vowels.includes(name[i])) {
+      newName.push(name[i]);
+    } else {
+      nameV.push(name[i]);
+    }
+  }
+  // build ID's second part according to problem instrucions
+  let secPart =
+    newName.join('').length < 3
+      ? (newName.join('') + nameV[0]).length < 3
+        ? newName.join('') + nameV[0] + 'X'
+        : newName.join('') + nameV[0]
+      : newName.join('');
+  secPart = secPart.length > 3 ? secPart[0] + secPart[2] + secPart[3] : secPart;
 
   // get year from given date of birth
   let year = dob.split('/')[2];
